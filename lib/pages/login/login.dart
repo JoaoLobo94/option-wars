@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'components/login_text_input.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -12,7 +11,7 @@ class Login extends StatelessWidget {
           decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
-                colors: [Colors.orange[900]!, Colors.orange[800]!, Colors.orange[400]!],
+                colors: [Colors.blue[900]!, Colors.blue[800]!, Colors.blue[400]!],
               )),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,7 +21,7 @@ class Login extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FadeAnimation()Text("Welcome back", style: TextStyle(color: Colors.white, fontSize: 40)),
+                    Text("Welcome back", style: TextStyle(color: Colors.white, fontSize: 40)),
                     SizedBox(height: 10),
                     Text("The battle awaits you", style: TextStyle(color: Colors.white, fontSize: 18)),
                   ],
@@ -36,11 +35,11 @@ class Login extends StatelessWidget {
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(60), topRight: Radius.circular(60)),
                   ),
                   child:  Padding(
-                      padding: EdgeInsets.all(30),
+                      padding: const EdgeInsets.all(30),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget> [
-                            const SizedBox(height:60),
+                            const SizedBox(height:40),
                             Container(
                                 decoration: BoxDecoration(
                                     color: Colors.white,
@@ -54,7 +53,7 @@ class Login extends StatelessWidget {
                                 child: Column(
                                     children: <Widget>[
                                       Container(
-                                          padding: EdgeInsets.all(10),
+                                          padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
                                             border: Border(bottom: BorderSide(color: Colors.grey[200]!)),
                                           ),
@@ -67,20 +66,38 @@ class Login extends StatelessWidget {
                                     ]
                                 )
                             ),
-                            SizedBox(height: 40),
-                            Container(
-                                height: 50,
-                                margin: EdgeInsets.symmetric(horizontal:50),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: Colors.orange[900]!
+                            const SizedBox(height: 40),
+                            TextButton(
+                              style: ButtonStyle(
+                                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                                overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              ),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/games');
+                              },
+                              child: SizedBox(
+                                width: double.infinity, // Match the parent's width
+                                child: Container(
+                                  height: 50,
+                                  margin: const EdgeInsets.symmetric(horizontal: 40),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue[900]!,
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: const Text("Login", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
                                 ),
-                                child: const Center(
-                                    child: Text("Login", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold))
-                                )
+                              ),
                             ),
-                            SizedBox(height: 40),
-                            Text("Generate Npriv key",style: TextStyle(color: Colors.grey)),
+                            const SizedBox(height: 40),
+                            TextButton(
+                              style: ButtonStyle(
+                                foregroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+                              ),
+                              onPressed: () {
+                              },
+                              child: Text("Generate Npriv key"),
+                            ),
                           ]
                       )
                   ),
@@ -88,6 +105,7 @@ class Login extends StatelessWidget {
               ),
             ],
           ),
-        ));
+        )
+    );
   }
 }

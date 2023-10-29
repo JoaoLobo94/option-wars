@@ -10,7 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_telegram_web_app: ^0.0.1
-  responsive_framework: ^1.1.1
   simple_animations: ^5.0.2
 
 dev_dependencies:
