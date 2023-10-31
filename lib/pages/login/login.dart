@@ -73,7 +73,7 @@ class Login extends StatelessWidget {
                                 overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, '/games');
+                                Navigator.pushNamed(context, '/option_game');
                               },
                               child: SizedBox(
                                 width: double.infinity, // Match the parent's width

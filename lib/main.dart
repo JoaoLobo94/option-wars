@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/login/login.dart';
-import 'pages/games/game.dart';
+import 'pages/games/option_game.dart';
 
 void main() {
   runApp(const MainApp());
@@ -14,7 +14,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       home: const Login(),
           routes:{
-              "/games":(context) => const Game(),
+              "/option_game":(context) => const OptionGame(),
           }
     );
   }
