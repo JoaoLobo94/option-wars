@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/login/login.dart';
+import 'pages/login/lightening_setup.dart';
 import 'pages/games/option_game.dart';
 
 void main() {
@@ -15,6 +16,7 @@ class MainApp extends StatelessWidget {
       home: const Login(),
           routes:{
               "/option_game":(context) => const OptionGame(),
+              "/lightening_setup":(context) => const LighteningSetup(),
           }
     );
   }

@@ -73,7 +73,8 @@ class Login extends StatelessWidget {
                                 overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, '/option_game');
+                                // need to check if user already exists or not. Show lightening setup conditionally
+                                Navigator.pushNamed(context, '/lightening_setup');
                               },
                               child: SizedBox(
                                 width: double.infinity, // Match the parent's width
