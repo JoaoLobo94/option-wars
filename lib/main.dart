@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const Login(),
+      home: const OptionGame(),
           routes:{
               "/option_game":(context) => const OptionGame(),
               "/lightening_setup":(context) => const LighteningSetup(),
