@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import './asset_price.dart';
+
 
 class GameTopBar extends StatelessWidget {
-  const GameTopBar({
-    super.key,
-  });
+  const GameTopBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +12,10 @@ class GameTopBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Text(
-                "\$30000",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
+              AssetPrice(),
               const Text(
                 "Bitcoin Battle",
                 style: TextStyle(color: Colors.white, fontSize: 20),
@@ -28,7 +24,7 @@ class GameTopBar extends StatelessWidget {
                 icon: const Icon(Icons.settings),
                 color: Colors.white,
                 onPressed: () {
-                  // need to check if the user already exists or not. Show lightning setup conditionally
+                  // Need to check if the user already exists or not. Show lightning setup conditionally
                   Navigator.pushNamed(context, '/option_game');
                 },
               ),

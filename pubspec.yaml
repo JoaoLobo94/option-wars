@@ -7,11 +7,11 @@ environment:
   sdk: '>=3.1.4 <4.0.0'
 
 dependencies:
+  http: ^1.1.0
   flutter:
     sdk: flutter
-  flutter_telegram_web_app: ^0.0.1
-  simple_animations: ^5.0.2
   webview_flutter: ^4.4.2
+  fl_chart: ^0.40.0
 
 dev_dependencies:
   flutter_test:
