@@ -11,14 +11,14 @@ class AssetPrice extends StatefulWidget {
 }
 
 class _PriceState extends State<AssetPrice> {
-  double bitcoinPrice = 0.0;
+  static double bitcoinPrice = 0.0;
   late Timer _timer;
 
   @override
   void initState() {
     super.initState();
     _fetchAndUpdatePrice();
-    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       _fetchAndUpdatePrice();
     });
   }

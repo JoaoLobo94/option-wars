@@ -16,7 +16,8 @@ class MainApp extends StatelessWidget {
           routes:{
               "/option_game":(context) => const OptionGame(),
               "/lightening_setup":(context) => const LighteningSetup(),
-          }
+          },
+      debugShowCheckedModeBanner: false,
     );
   }
 }

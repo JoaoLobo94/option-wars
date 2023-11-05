@@ -9,8 +9,7 @@ class OptionGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Simulated Bitcoin price data for demonstration purposes
-    List<double> bitcoinPrices = [1,3];
+    // List<double> bitcoinPrices = [1,3];
 
     return Scaffold(
       body: Column(
@@ -25,9 +24,14 @@ class OptionGame extends StatelessWidget {
             ),
             child: const GameTopBar(),
           ),
-          Expanded(
-            child: PriceChart(priceData: bitcoinPrices), // Pass Bitcoin price data
+          Text(
+            "You are playing against the XXX",
+            style: TextStyle(color: Colors.black, fontSize: 20),
           ),
+
+          // Expanded(
+          //   child: Text(AssetPrice().bitcoinPrice.toString()),
+          // ),
           const ButtonRow(buttonLabels: ["10 sats", "100 sats", "1000 sats", "10000 sats"]),
           const ButtonRow(buttonLabels: ["go up", "go down"]),
           const ButtonRow(buttonLabels: ["Play"]),

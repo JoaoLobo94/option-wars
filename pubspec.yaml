@@ -10,8 +10,8 @@ dependencies:
   http: ^1.1.0
   flutter:
     sdk: flutter
-  webview_flutter: ^4.4.2
   fl_chart: ^0.40.0
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
