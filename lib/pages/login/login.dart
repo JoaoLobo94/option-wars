@@ -97,7 +97,7 @@ class Login extends StatelessWidget {
                               ),
                               onPressed: () {
                               },
-                              child: Text("Generate Npriv key"),
+                              child: const Text("Generate Npriv key"),
                             ),
                           ]
                       )

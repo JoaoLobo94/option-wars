@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'pages/login/login.dart';
 import 'pages/login/lightening_setup.dart';
 import 'pages/games/option_game.dart';
 
