@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './asset_price.dart';
+import 'package:option_battles/providers/price_provider.dart';
+import 'package:provider/provider.dart';
 
 
 class GameTopBar extends StatelessWidget {
@@ -15,7 +16,10 @@ class GameTopBar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              AssetPrice(),
+               Text(
+                context.watch<PriceProvider>().price.toString(),
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
               const Text(
                 "Bitcoin Battle",
                 style: TextStyle(color: Colors.white, fontSize: 20),
