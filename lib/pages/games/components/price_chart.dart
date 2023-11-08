@@ -11,7 +11,7 @@ class PriceChart extends StatelessWidget {
     return LineChart(
       LineChartData(
         minX: 0,
-        maxX: 10 ,
+        maxX: 10,
         minY: priceData.reduce((min, price) => min < price ? min : price) - 2,
         maxY: priceData.reduce((max, price) => max > price ? max : price) + 2,
         lineBarsData: [
