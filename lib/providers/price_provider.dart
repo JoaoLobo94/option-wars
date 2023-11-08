@@ -1,44 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'dart:convert';
 import 'dart:async';
 
 class PriceProvider extends ChangeNotifier {
   double price = 0.0;
-  List <double> inGamePrices = [];
-  late Timer _timer;
+  List<double> inGamePrices = [];
+  final StreamController<double> _priceStreamController = StreamController<double>();
 
-  PriceProvider(){
-    _updatePrice();
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      _updatePrice();
+  PriceProvider() {
+    final wsUrl = Uri.parse('wss://stream.binance.com:9443/ws/btcusdt@trade');
+    var channel = WebSocketChannel.connect(wsUrl);
+    channel.stream.listen((message) {
+      final Map<String, dynamic> data = json.decode(message);
+      price = double.parse(data['p']);
       addPriceToChart(price);
+      _priceStreamController.add(price);
     });
   }
+
+  Stream<double> get priceStream => _priceStreamController.stream;
 
   void addPriceToChart(double price) {
-    inGamePrices.add(price);
-    notifyListeners(); // Notify listeners to rebuild the widget when the data changes.
-  }
-
-  Future<double> _fetchPrice() async {
-    final response = await http.get(
-      Uri.parse('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT'),
-    );
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final double price = double.parse(data['price']);
-      return price;
-    } else {
-      throw Exception('Failed to load Bitcoin price');
+    if (inGamePrices.length > 10) {
+      inGamePrices.removeAt(0);
     }
-  }
-
-  Future<void> _updatePrice() async {
-    _fetchPrice().then((currentPrice) {
-      price = currentPrice;
+      inGamePrices.add(price);
       notifyListeners();
-    });
   }
 }

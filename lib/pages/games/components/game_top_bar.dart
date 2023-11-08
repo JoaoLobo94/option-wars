@@ -16,9 +16,20 @@ class GameTopBar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-               Text(
-                context.watch<PriceProvider>().price.toString(),
-                style: TextStyle(color: Colors.white, fontSize: 20),
+              StreamBuilder<double>(
+                stream: context.watch<PriceProvider>().priceStream,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text("Error: ${snapshot.error}");
+                  } else {
+                    return Text(
+                      snapshot.data.toString(),
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                    );
+                  }
+                },
               ),
               const Text(
                 "Bitcoin Battle",

@@ -11,9 +11,6 @@ class OptionGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List<double> bitcoinPrices = [];
-
-
     return Scaffold(
       body: Column(
         children: [
@@ -27,16 +24,17 @@ class OptionGame extends StatelessWidget {
             ),
             child: const GameTopBar(),
           ),
-          const Text(
-            "You are playing against the XXX",
-            style: TextStyle(color: Colors.black, fontSize: 20),
-          ),
+          // const Text(
+          //   "You are playing against the XXX",
+          //   style: TextStyle(color: Colors.black, fontSize: 20),
+          // ),
           Expanded(
             child: Consumer<PriceProvider>(
               builder: (context, priceProvider, child) {
                 final inGamePrices = priceProvider.inGamePrices;
-
-                // Replace 'PriceChart' with your chart widget and pass in inGamePrices
+                if (inGamePrices.isEmpty) {
+                  return const Center(child: CircularProgressIndicator());
+                }
                 return PriceChart(priceData: inGamePrices);
               },
             ),
