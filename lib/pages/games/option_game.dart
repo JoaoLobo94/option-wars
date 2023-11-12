@@ -32,10 +32,11 @@ class OptionGame extends StatelessWidget {
             child: Consumer<PriceProvider>(
               builder: (context, priceProvider, child) {
                 final inGamePrices = priceProvider.inGamePrices;
+                final firstPrice = priceProvider.firstPrice;
                 if (inGamePrices.isEmpty) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                return PriceChart(priceData: inGamePrices);
+                return PriceChart(priceData: inGamePrices, firstPrice: firstPrice);
               },
             ),
           ),
