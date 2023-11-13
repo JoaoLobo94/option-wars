@@ -4,82 +4,121 @@ import 'package:fl_chart/fl_chart.dart';
 class PriceChart extends StatelessWidget {
   final List<double> priceData;
   final List<double> firstPrice;
+  final double currentPrice;
 
-  const PriceChart({Key? key, required this.priceData, required this.firstPrice}) : super(key: key);
+  const PriceChart({Key? key, required this.priceData, required this.firstPrice, required this.currentPrice}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return LineChart(
-      LineChartData(
-        minX: 0,
-        maxX: 10,
-        minY: priceData.reduce((min, price) => min < price ? min : price) - 2,
-        maxY: priceData.reduce((max, price) => max > price ? max : price) + 2,
-        lineBarsData: [
-          LineChartBarData(
-            spots: List.generate(priceData.length, (index) {
-              return FlSpot(index.toDouble(), priceData[index]);
-            }),
-            dotData: const FlDotData(
-              show: false,
-            ),
-            isCurved: true,
-            color: _getColor(priceData.last, firstPrice.first, false),
-            belowBarData: BarAreaData(show: true, color: _getColor(priceData.last, firstPrice.first, true), ),
-          ),
-
-
-        ],
-        extraLinesData: ExtraLinesData(
-          extraLinesOnTop: true,
-          horizontalLines: [
-            HorizontalLine(
-              y: firstPrice[0],
-              color: Colors.red,
-              strokeWidth: 2,
-              dashArray: [5, 2],
-              label: HorizontalLineLabel(
-                show: true,
-                alignment: Alignment.topRight,
-                padding: const EdgeInsets.only(right: 5, bottom: 5),
-                style: const TextStyle(
-                  fontSize: 9,
-                  fontWeight: FontWeight.bold,
-                ),
-                labelResolver: (line) => 'Start Price: ${line.y}',
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: 50
+      ), // Set the maximum height
+      child: LineChart(
+        LineChartData(
+          minX: 0,
+          maxX: 10,
+          minY: firstPrice.first - 11,
+          maxY: firstPrice.first + 11,
+          lineBarsData: [
+            LineChartBarData(
+              spots: List.generate(priceData.length, (index) {
+                return FlSpot(index.toDouble(), priceData[index]);
+              }),
+              dotData: const FlDotData(
+                show: false,
               ),
+              isCurved: true,
+              color: _getColor(priceData.last, firstPrice.first, false),
+              belowBarData: BarAreaData(show: true, color: _getColor(priceData.last, firstPrice.first, true), ),
             ),
           ],
-        ),
-        gridData: FlGridData(show: true,
-          drawVerticalLine: false,
-          drawHorizontalLine: true,
-          horizontalInterval: 0.5, // Set the interval for horizontal lines
-          getDrawingHorizontalLine: (value) {
-            return const FlLine(
-              color: Colors.grey,
-              strokeWidth: 1,
-              dashArray: [5, 2],
-            );
-          },
-        ),
-        titlesData: FlTitlesData(show: true,
-          topTitles: const AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
+          borderData: FlBorderData(
+            show: true,
           ),
-          rightTitles: const AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          bottomTitles: const AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          leftTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                reservedSize: 46,
-                getTitlesWidget: leftTitleWidgets,
+          extraLinesData: ExtraLinesData(
+            extraLinesOnTop: true,
+            horizontalLines: [
+              HorizontalLine(
+                y: firstPrice[0] + 10,
+                color: Colors.greenAccent,
+                strokeWidth: 2,
+                dashArray: [10, 2],
+                label: HorizontalLineLabel(
+                  show: true,
+                  alignment: Alignment.topRight,
+                  padding: const EdgeInsets.only(right: 5, bottom: 5),
+                  style: const TextStyle(
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  labelResolver: (line) => 'Green wins: ${line.y}',
+                ),
               ),
-          )
+              HorizontalLine(
+                y: firstPrice[0],
+                color: Colors.blue,
+                strokeWidth: 2,
+                dashArray: [10, 2],
+                label: HorizontalLineLabel(
+                  show: true,
+                  alignment: Alignment.topRight,
+                  padding: const EdgeInsets.only(right: 5, bottom: 5),
+                  style: const TextStyle(
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  labelResolver: (line) => 'Start Price: ${line.y}',
+                ),
+              ),
+              HorizontalLine(
+                y: firstPrice[0] - 10,
+                color: Colors.red,
+                strokeWidth: 2,
+                dashArray: [10, 2],
+                label: HorizontalLineLabel(
+                  show: true,
+                  alignment: Alignment.topRight,
+                  padding: const EdgeInsets.only(right: 5, bottom: 5),
+                  style: const TextStyle(
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  labelResolver: (line) => 'Red rins: ${line.y}',
+                ),
+              ),
+            ],
+          ),
+          gridData: FlGridData(show: false,
+            drawVerticalLine: false,
+            drawHorizontalLine: true,
+            horizontalInterval: 2.5,
+            getDrawingHorizontalLine: (value) {
+              return const FlLine(
+                color: Colors.grey,
+                strokeWidth: 1,
+                dashArray: [5, 2],
+              );
+            },
+          ),
+          titlesData: FlTitlesData(show: true,
+            topTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            rightTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            bottomTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 46,
+                  getTitlesWidget: leftTitleWidgets,
+                ),
+            )
+          ),
         ),
       ),
     );
