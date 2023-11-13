@@ -64,7 +64,7 @@ class LighteningSetup extends StatelessWidget {
                         ),
                         onPressed: () {
                           // need to check if the user already exists or not. Show lightning setup conditionally
-                          Navigator.pushNamed(context, '/option_game');
+                          Navigator.pushNamed(context, '/waiting_room');
                         },
                         child: SizedBox(
                           width: double.infinity,
