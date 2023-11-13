@@ -24,10 +24,6 @@ class OptionGame extends StatelessWidget {
             ),
             child: const GameTopBar(),
           ),
-          // const Text(
-          //   "You are playing against the XXX",
-          //   style: TextStyle(color: Colors.black, fontSize: 20),
-          // ),
           Expanded(
             child: Consumer<PriceProvider>(
               builder: (context, priceProvider, child) {
