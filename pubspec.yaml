@@ -13,6 +13,7 @@ dependencies:
   fl_chart: ^0.64.0
   web_socket_channel: ^2.2.4
   provider: ^6.1.0
+  nostr: ^1.4.2
 
 dev_dependencies:
   flutter_test:
@@ -23,3 +24,4 @@ flutter:
   uses-material-design: true
   assets:
     - lib/assets/img.png
+    - lib/assets/badger.png
