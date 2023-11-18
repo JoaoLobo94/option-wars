@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'components/game_top_bar.dart';
 import 'components/button_row.dart';
 
-class WaitingRoom extends StatelessWidget {
-  const WaitingRoom({Key? key}) : super(key: key);
+class SetGame extends StatelessWidget {
+  const SetGame({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +24,13 @@ class WaitingRoom extends StatelessWidget {
 
             Expanded(
               child: Container(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
-                      "Do you think the price will go upbor down by \$10 first?",
+                      "Do you think the price will go up or down by \$10?",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -60,7 +60,6 @@ class WaitingRoom extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 8),
                   ButtonRow(buttonLabels: ["10 sats", "100 sats", "1000 sats", "10000 sats"]),
                   SizedBox(height: 16),
                   Divider(
@@ -70,7 +69,6 @@ class WaitingRoom extends StatelessWidget {
                     indent: 20,
                     endIndent: 20,
                   ),
-                  SizedBox(height: 16),
                   ButtonRow(buttonLabels: ["Go up", "Go down"]),
                   SizedBox(height: 16),
                   Divider(
@@ -80,7 +78,6 @@ class WaitingRoom extends StatelessWidget {
                     indent: 20,
                     endIndent: 20,
                   ),
-                  SizedBox(height: 16),
                   ButtonRow(buttonLabels: ["Play"]),
                 ],
               ),

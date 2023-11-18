@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'providers/price_provider.dart';
 import 'pages/login/login.dart';
 import 'pages/games/option_game.dart';
-import 'pages/games/waiting_room.dart';
+import 'pages/games/set_game.dart';
 
 void main() {
   runApp(const MainApp());
@@ -24,7 +24,7 @@ class MainApp extends StatelessWidget {
           routes:{
             "/option_game":(context) => const OptionGame(),
             "/lightening_setup":(context) => const LighteningSetup(),
-            "/waiting_room":(context) => const WaitingRoom(),
+            "/set_game":(context) => const SetGame(),
           },
           debugShowCheckedModeBanner: false,
         )

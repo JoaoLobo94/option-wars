@@ -7,7 +7,7 @@ class PriceProvider extends ChangeNotifier {
   double price = 0.0;
   List<double> inGamePrices = [];
   List <double> firstPrice = [];
-  final StreamController<double> _priceStreamController = StreamController<double>();
+  final StreamController<double> _priceStreamController = StreamController<double>.broadcast();
 
   PriceProvider() {
     final wsUrl = Uri.parse('wss://stream.binance.com:9443/ws/btcusdt@trade');

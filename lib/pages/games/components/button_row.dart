@@ -15,7 +15,9 @@ class ButtonRow extends StatelessWidget {
         children: buttonLabels.map((label) {
           return ElevatedButton(
             onPressed: () {
-              // Add your button logic here
+              if (label == 'Play') {
+                Navigator.pushNamed(context, '/option_game');
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.orangeAccent, // Set the button color to orange accent

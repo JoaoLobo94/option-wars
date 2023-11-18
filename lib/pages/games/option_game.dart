@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:option_battles/providers/price_provider.dart';
 import 'components/game_top_bar.dart';
-import 'components/button_row.dart';
 import 'package:provider/provider.dart';
 import 'components/price_chart.dart';
 
@@ -37,9 +36,6 @@ class OptionGame extends StatelessWidget {
               },
             ),
           ),
-          const ButtonRow(buttonLabels: ["10 sats", "100 sats", "1000 sats", "10000 sats"]),
-          const ButtonRow(buttonLabels: ["go up", "go down"]),
-          const ButtonRow(buttonLabels: ["Play"]),
         ],
       ),
     );
