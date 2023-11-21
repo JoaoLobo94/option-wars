@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:nostr/nostr.dart';
+
+void generateLogin() async {
+  var randomKeys = Keychain.generate();
+  print(randomKeys.private);
+}
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -17,7 +23,7 @@ class Login extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                const Padding(padding: EdgeInsets.all(20),
+                const Padding(padding: EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -35,37 +41,61 @@ class Login extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget> [
                               const SizedBox(height:40),
-                              Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: const [BoxShadow(
-                                          color: Color.fromRGBO(225, 95, 27, .3),
-                                          blurRadius: 20,
-                                          offset: Offset(0, 10)
-                                      )]
-                                  ),
-                                  // child: Column(
-                                  //     children: <Widget>[
-                                  //       Container(
-                                  //           padding: const EdgeInsets.all(10),
-                                  //           decoration: BoxDecoration(
-                                  //             border: Border(bottom: BorderSide(color: Colors.grey[200]!)),
-                                  //           ),
-                                  //           child: const TextField(
-                                  //               decoration: InputDecoration(
-                                  //                   hintText: "Enter your Npriv key",
-                                  //                   hintStyle: TextStyle(color: Colors.grey),
-                                  //                   border: InputBorder.none))
-                                  //       ),
-                                  //     ]
-                                  // )
-                              ),
                               Image.asset(
                                 'lib/assets/badger.png',
                                 width: 200,
                                 height: 200,
                               ),
+                              Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: const [BoxShadow(
+                                          color: Color.fromRGBO(225, 95, 27, .3),
+                                          blurRadius: 20,
+                                          offset: Offset(0, 10)
+                                      )
+                                      ]
+                                  ),
+                                  child: Column(
+                                      children: <Widget>[
+                                        Container(
+                                            padding: const EdgeInsets.all(10),
+                                            child: const TextField(
+                                                decoration: InputDecoration(
+                                                    hintText: "Enter your username",
+                                                    hintStyle: TextStyle(color: Colors.grey),
+                                                    border: InputBorder.none))
+                                        ),
+                                      ]
+                                  )
+                              ),
+                              const SizedBox(height:10),
+                              Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: const [BoxShadow(
+                                          color: Color.fromRGBO(225, 95, 27, .3),
+                                          blurRadius: 20,
+                                          offset: Offset(0, 10)
+                                      )
+                                      ]
+                                  ),
+                                  child: Column(
+                                      children: <Widget>[
+                                        Container(
+                                            padding: const EdgeInsets.all(10),
+                                            child: const TextField(
+                                                decoration: InputDecoration(
+                                                    hintText: "Enter your password",
+                                                    hintStyle: TextStyle(color: Colors.grey),
+                                                    border: InputBorder.none))
+                                        ),
+                                      ]
+                                  )
+                              ),
+                              const SizedBox(height:10),
                               TextButton(
                                 style: ButtonStyle(
                                   foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
@@ -85,11 +115,11 @@ class Login extends StatelessWidget {
                                       color: Colors.orangeAccent,
                                       borderRadius: BorderRadius.circular(40),
                                     ),
-                                    child: const Text("Generate single use login", style: TextStyle(color: Colors.white, fontSize: 18)),
+                                    child: const Text("Login", style: TextStyle(color: Colors.white, fontSize: 18)),
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 10),
                               TextButton(
                                 style: ButtonStyle(
                                   foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -97,8 +127,10 @@ class Login extends StatelessWidget {
                                 ),
                                 onPressed: () {
                                 },
-                                child: const Text("All sessions are ephemeral."),
+                                child: const Text("If your account doesn't exist we will create one."),
                               ),
+                              const SizedBox(height: 30),
+                              Text("Nostr login in the works...", style: TextStyle(color: Colors.white, fontSize: 18))
                             ]
                         )
                     ),
