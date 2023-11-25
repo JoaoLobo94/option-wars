@@ -6,7 +6,7 @@ class PriceChart extends StatelessWidget {
   final List<double> firstPrice;
   final double currentPrice;
 
-  const PriceChart({Key? key, required this.priceData, required this.firstPrice, required this.currentPrice}) : super(key: key);
+  const PriceChart({super.key, required this.priceData, required this.firstPrice, required this.currentPrice});
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +151,7 @@ class PriceChart extends StatelessWidget {
       fontSize: 10,
     );
 
-    String text = '${value}';
+    String text = '$value';
 
     return SideTitleWidget(
       axisSide: meta.axisSide,

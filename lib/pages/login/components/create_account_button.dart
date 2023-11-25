@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CreateAccountButton extends StatelessWidget {
-  const CreateAccountButton({Key? key}) : super(key: key);
+  const CreateAccountButton({super.key});
 
   @override
   Widget build(BuildContext context) {

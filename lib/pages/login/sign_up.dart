@@ -5,7 +5,7 @@ import 'components/text_field.dart';
 import 'components/login_button.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+  const SignUp({super.key});
 
   @override
   _SignUpState createState() => _SignUpState();
@@ -42,14 +42,14 @@ class _SignUpState extends State<SignUp> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                WelcomeText(title: "You are new", subtitle: "We will need some information to startup"),
+                const WelcomeText(title: "You are new", subtitle: "We will need some information to startup"),
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        BadgerImage(),
+                        const BadgerImage(),
                         InputTextField(
                           controller: _usernameController,
                           hintText: "What username would you like?",
@@ -89,12 +89,8 @@ class _SignUpState extends State<SignUp> {
       String password = _passwordController.text;
       String lnurl = _lnurlController.text;
 
-      // Perform API call with the obtained values
-      // Example:
-      // apiCall(username, password, lnurl);
 
-      // Navigate to the next screen (if needed)
-      Navigator.pushNamed(context, '/lightening_setup');
+
     }
   }
 }

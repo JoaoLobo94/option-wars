@@ -3,7 +3,7 @@ import 'components/game_top_bar.dart';
 import 'components/button_row.dart';
 
 class SetGame extends StatelessWidget {
-  const SetGame({Key? key}) : super(key: key);
+  const SetGame({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +17,9 @@ class SetGame extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Container(
+            const SizedBox(
               width: double.infinity,
-              child: const GameTopBar(),
+              child: GameTopBar(),
             ),
 
             Expanded(

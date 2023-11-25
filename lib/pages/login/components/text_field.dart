@@ -4,7 +4,7 @@ class TextFieldContainer extends StatelessWidget {
   final Widget child;
   final TextEditingController? controller;
 
-  const TextFieldContainer({Key? key, required this.child, this.controller}) : super(key: key);
+  const TextFieldContainer({super.key, required this.child, this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class InputTextField extends StatelessWidget {
   final String hintText;
   final TextEditingController? controller;
 
-  const InputTextField({Key? key, required this.hintText, this.controller}) : super(key: key);
+  const InputTextField({super.key, required this.hintText, this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class PasswordTextField extends StatelessWidget {
   final String hintText;
   final TextEditingController? controller;
 
-  const PasswordTextField({Key? key, required this.hintText, this.controller}) : super(key: key);
+  const PasswordTextField({super.key, required this.hintText, this.controller});
 
   @override
   Widget build(BuildContext context) {

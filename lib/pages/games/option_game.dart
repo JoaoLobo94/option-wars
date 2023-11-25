@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'components/price_chart.dart';
 
 class OptionGame extends StatelessWidget {
-  const OptionGame({Key? key}) : super(key: key);
+  const OptionGame({super.key});
 
   @override
   Widget build(BuildContext context) {

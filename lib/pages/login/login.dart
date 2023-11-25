@@ -8,7 +8,7 @@ import 'components/create_account_button.dart';
 
 
 class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
   Widget build(BuildContext context) {

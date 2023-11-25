@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BadgerImage extends StatelessWidget {
-  const BadgerImage({Key? key}) : super(key: key);
+  const BadgerImage({super.key});
 
   @override
   Widget build(BuildContext context) {

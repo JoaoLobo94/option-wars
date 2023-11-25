@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 
 class GameTopBar extends StatelessWidget {
-  const GameTopBar({Key? key}) : super(key: key);
+  const GameTopBar({super.key});
 
   @override
   Widget build(BuildContext context) {
