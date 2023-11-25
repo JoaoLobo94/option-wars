@@ -11,7 +11,7 @@ class CreateAccountButton extends StatelessWidget {
         overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
       ),
       onPressed: () {
-        // Handle account creation logic
+        Navigator.pushNamed(context, '/sign_up');
       },
       child: const Text("Create account", style: TextStyle(color: Colors.white, fontSize: 18)),
     );

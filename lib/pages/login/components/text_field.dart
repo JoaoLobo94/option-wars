@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class TextFieldContainer extends StatelessWidget {
   final Widget child;
+  final TextEditingController? controller;
 
-  const TextFieldContainer({Key? key, required this.child}) : super(key: key);
+  const TextFieldContainer({Key? key, required this.child, this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +32,21 @@ class TextFieldContainer extends StatelessWidget {
   }
 }
 
-class UsernameTextField extends StatelessWidget {
-  const UsernameTextField({Key? key}) : super(key: key);
+class InputTextField extends StatelessWidget {
+  final String hintText;
+  final TextEditingController? controller;
+
+  const InputTextField({Key? key, required this.hintText, this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
-      child: const TextField(
+      controller: controller,
+      child: TextField(
+        controller: controller,
         decoration: InputDecoration(
-          hintText: "Enter your username",
-          hintStyle: TextStyle(color: Colors.grey),
+          hintText: hintText,
+          hintStyle: const TextStyle(color: Colors.grey),
           border: InputBorder.none,
         ),
       ),
@@ -49,15 +55,21 @@ class UsernameTextField extends StatelessWidget {
 }
 
 class PasswordTextField extends StatelessWidget {
-  const PasswordTextField({Key? key}) : super(key: key);
+  final String hintText;
+  final TextEditingController? controller;
+
+  const PasswordTextField({Key? key, required this.hintText, this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
-      child: const TextField(
+      controller: controller,
+      child: TextField(
+        controller: controller,
+        obscureText: true,
         decoration: InputDecoration(
-          hintText: "Enter your password",
-          hintStyle: TextStyle(color: Colors.grey),
+          hintText: hintText,
+          hintStyle: const TextStyle(color: Colors.grey),
           border: InputBorder.none,
         ),
       ),

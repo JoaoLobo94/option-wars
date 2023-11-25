@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
-  final BuildContext context;
+  final VoidCallback onPressed;
+  final String title;
 
-  const LoginButton(this.context, {Key? key}) : super(key: key);
+  const LoginButton({Key? key, required this.onPressed, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +13,7 @@ class LoginButton extends StatelessWidget {
         foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
         overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
       ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/lightening_setup');
-      },
+      onPressed: onPressed,
       child: SizedBox(
         width: double.infinity,
         child: Container(
@@ -25,7 +24,7 @@ class LoginButton extends StatelessWidget {
             color: Colors.orangeAccent,
             borderRadius: BorderRadius.circular(40),
           ),
-          child: const Text("Login", style: TextStyle(color: Colors.white, fontSize: 18)),
+          child: Text(title, style: const TextStyle(color: Colors.white, fontSize: 18)),
         ),
       ),
     );

@@ -25,21 +25,26 @@ class Login extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              WelcomeText(),
+              const WelcomeText(title: "Welcome back", subtitle: "The battle awaits you"),
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      BadgerImage(),
-                      UsernameTextField(),
+                      const BadgerImage(),
+                      const InputTextField(hintText: "Enter your username"),
                       const SizedBox(height: 10),
-                      PasswordTextField(),
+                      const PasswordTextField(hintText: "Enter your password"),
                       const SizedBox(height: 10),
-                      LoginButton(context),
+                      LoginButton(
+                        onPressed: () {
+                          _submitForm();
+                        },
+                        title: "Sign Up",
+                      ),
                       const SizedBox(height: 10),
-                      CreateAccountButton(),
+                      const CreateAccountButton(),
                       const SizedBox(height: 30),
                       const Text("Get ready for the battle", style: TextStyle(color: Colors.white, fontSize: 18)),
                     ],
@@ -52,4 +57,8 @@ class Login extends StatelessWidget {
       ),
     );
   }
+}
+
+void _submitForm() {
+  print("Form submitted");
 }

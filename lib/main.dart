@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'pages/login/lightening_setup.dart';
 import 'package:provider/provider.dart';
 import 'providers/price_provider.dart';
 import 'pages/login/login.dart';
+import 'pages/login/sign_up.dart';
 import 'pages/games/option_game.dart';
 import 'pages/games/set_game.dart';
 
@@ -23,7 +23,7 @@ class MainApp extends StatelessWidget {
           home: const Login(),
           routes:{
             "/option_game":(context) => const OptionGame(),
-            "/lightening_setup":(context) => const LighteningSetup(),
+            "/sign_up":(context) => const SignUp(),
             "/set_game":(context) => const SetGame(),
           },
           debugShowCheckedModeBanner: false,

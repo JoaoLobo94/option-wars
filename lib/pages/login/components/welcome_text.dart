@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class WelcomeText extends StatelessWidget {
-  const WelcomeText({Key? key}) : super(key: key);
+  final String title;
+  final String subtitle;
+
+  const WelcomeText({super.key, required this.title, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -10,9 +13,9 @@ class WelcomeText extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("Welcome back", style: TextStyle(color: Colors.white, fontSize: 40)),
-          SizedBox(height: 10),
-          Text("The battle awaits you", style: TextStyle(color: Colors.white, fontSize: 18)),
+          Text(title, style: const TextStyle(color: Colors.white, fontSize: 40)),
+          const SizedBox(height: 10),
+          Text(subtitle, style: const TextStyle(color: Colors.white, fontSize: 18)),
         ],
       ),
     );
