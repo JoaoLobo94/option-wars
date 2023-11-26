@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
+import '../../providers/jwt_provider.dart';
 import '../../services/api.dart';
 import 'components/welcome_text.dart';
 import 'components/badger_image.dart';
@@ -95,9 +97,17 @@ class SignUpState extends State<SignUp> {
       if (baseUrl != null) {
         ApiService apiService = ApiService(baseUrl);
         try {
-          ApiResult result = await apiService.signUp(username, password, lnurl);
+          ApiResult result = await apiService.sendRequest(
+            username: username,
+            password: password,
+            path: 'users',
+            method: 'POST',
+            lnurl: lnurl);
 
           if (result.success) {
+            final token = result.data['token'];
+            final jwtProvider = Provider.of<JwtProvider>(context, listen: false);
+            jwtProvider.saveJwtToStorage(token);
             Navigator.pushNamed(context, '/set_game');
           } else {
             ScaffoldMessenger.of(context).showSnackBar(

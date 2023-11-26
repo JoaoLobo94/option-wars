@@ -40,7 +40,7 @@ class GameTopBar extends StatelessWidget {
                 color: Colors.white,
                 onPressed: () {
                   // Need to check if the user already exists or not. Show lightning setup conditionally
-                  Navigator.pushNamed(context, '/option_game');
+                  Navigator.pushNamed(context, '/settings');
                 },
               ),
             ],

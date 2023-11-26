@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'providers/jwt_provider.dart';
 import 'providers/price_provider.dart';
 import 'pages/login/login.dart';
+import 'pages/settings/settings.dart';
 import 'pages/login/sign_up.dart';
 import 'pages/games/option_game.dart';
 import 'pages/games/set_game.dart';
@@ -20,6 +22,7 @@ class MainApp extends StatelessWidget {
     return MultiProvider(providers:
     [
       ChangeNotifierProvider(create: (context) => PriceProvider()),
+      ChangeNotifierProvider(create: (context) => JwtProvider()),
     ],
         child: MaterialApp(
           home: const Login(),
@@ -27,6 +30,7 @@ class MainApp extends StatelessWidget {
             "/option_game":(context) => const OptionGame(),
             "/sign_up":(context) => const SignUp(),
             "/set_game":(context) => const SetGame(),
+            "/settings":(context) => const Settings(),
           },
           debugShowCheckedModeBanner: false,
         )
