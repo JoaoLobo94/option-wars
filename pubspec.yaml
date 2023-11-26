@@ -9,11 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  fl_chart: ^0.64.0
+  fl_chart: ^0.65.0
   http: ^1.1.0
+  flutter_dotenv: ^5.0.2
   web_socket_channel: ^2.2.4
   provider: ^6.1.0
-  nostr: ^1.4.2
 
 dev_dependencies:
   flutter_test:
@@ -25,3 +25,4 @@ flutter:
   assets:
     - lib/assets/img.png
     - lib/assets/badger.png
+    - .env

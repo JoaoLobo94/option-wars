@@ -5,8 +5,10 @@ import 'pages/login/login.dart';
 import 'pages/login/sign_up.dart';
 import 'pages/games/option_game.dart';
 import 'pages/games/set_game.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load();
   runApp(const MainApp());
 }
 

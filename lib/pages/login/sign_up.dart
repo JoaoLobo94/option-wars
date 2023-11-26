@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../../services/api.dart';
 import 'components/welcome_text.dart';
 import 'components/badger_image.dart';
 import 'components/text_field.dart';
@@ -8,10 +10,10 @@ class SignUp extends StatefulWidget {
   const SignUp({super.key});
 
   @override
-  _SignUpState createState() => _SignUpState();
+  SignUpState createState() => SignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -67,7 +69,7 @@ class _SignUpState extends State<SignUp> {
                         const SizedBox(height: 10),
                         LoginButton(
                           onPressed: () {
-                            _submitForm();
+                            _submitForm(context);
                           },
                           title: "Sign Up",
                         ),
@@ -83,14 +85,37 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  void _submitForm() {
+  void _submitForm(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       String username = _usernameController.text;
       String password = _passwordController.text;
       String lnurl = _lnurlController.text;
+      String? baseUrl = dotenv.env['BASE_URL'];
 
+      if (baseUrl != null) {
+        ApiService apiService = ApiService(baseUrl);
+        try {
+          ApiResult result = await apiService.signUp(username, password, lnurl);
 
-
+          if (result.success) {
+            Navigator.pushNamed(context, '/set_game');
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Error: ${result.errorMessage}'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error: $e'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
     }
   }
 }
