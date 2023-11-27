@@ -6,7 +6,7 @@ class ApiService {
 
   ApiService(this.baseUrl);
 
-  Future<ApiResult> sendRequest({
+  Future<ApiResult> sendAccountRequest({
     required String username,
     required String password,
     required String path,
@@ -40,6 +40,37 @@ class ApiService {
       }
 
       if (response.statusCode == 202) {
+        return ApiResult.ok(json.decode(response.body));
+      } else {
+        Map<String, dynamic> errorResponse = json.decode(response.body);
+        String errorMessage = errorResponse['message'].toString();
+        return ApiResult.failure(errorMessage);
+      }
+    } catch (error) {
+      return ApiResult.failure('Error making HTTP request: $error');
+    }
+  }
+
+  Future<ApiResult> requestInvoice({
+    required String amount,
+    required String path,
+    required String token,
+  }) async {
+    String apiEndpoint = '$baseUrl/$path';
+
+    Map<String, dynamic> requestData = {
+      'amount': amount,
+    };
+
+    try {
+      late http.Response response;
+        response = await http.post(
+          Uri.parse(apiEndpoint),
+          body: json.encode(requestData),
+          headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
+        );
+
+      if (response.statusCode == 201) {
         return ApiResult.ok(json.decode(response.body));
       } else {
         Map<String, dynamic> errorResponse = json.decode(response.body);

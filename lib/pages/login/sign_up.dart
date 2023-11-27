@@ -97,7 +97,7 @@ class SignUpState extends State<SignUp> {
       if (baseUrl != null) {
         ApiService apiService = ApiService(baseUrl);
         try {
-          ApiResult result = await apiService.sendRequest(
+          ApiResult result = await apiService.sendAccountRequest(
             username: username,
             password: password,
             path: 'users',
