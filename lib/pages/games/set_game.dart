@@ -1,4 +1,5 @@
 import '../../providers/jwt_provider.dart';
+import '../../providers/data_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -138,12 +139,15 @@ void requestInvoice({selectedAmount, selectedDirection, required BuildContext co
   if (baseUrl != null) {
     ApiService apiService = ApiService(baseUrl);
     JwtProvider jwtProvider = Provider.of<JwtProvider>(context, listen: false);
+    DataProvider dataProvider = Provider.of<DataProvider>(context, listen: false);
 
     String jwt = jwtProvider.jwt!;
 
     apiService.requestInvoice(amount: selectedAmount, path: 'invoices', token: jwt).then((result) {
+
       if (result.success) {
-        Navigator.pushNamed(context, '/payment', arguments: {#payment_hash: result.data['payment_request'], #selectedDirection: selectedDirection});
+        dataProvider.setParameters(result.data['payment_hash'], selectedDirection, selectedAmount);
+        Navigator.pushNamed(context, '/payment');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

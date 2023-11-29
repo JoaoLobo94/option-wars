@@ -95,7 +95,7 @@ class LoginState extends State<Login> {
         if (result.success) {
           final jwtProvider = Provider.of<JwtProvider>(context, listen: false);
           jwtProvider.saveJwtToStorage(result.data['token']);
-          Navigator.pushNamed(context, '/set_game');
+          Navigator.pushNamed(context, "/home");
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
