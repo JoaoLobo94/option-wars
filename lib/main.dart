@@ -41,17 +41,35 @@ class MainAppContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: Provider.of<JwtProvider>(context).jwt?.isNotEmpty ?? false ? '/home' : '/login',
+      home: OptionGame(),
       routes: {
-        "/option_game": (context) => const OptionGame(),
-        "/sign_up": (context) => const SignUp(),
-        "/set_game": (context) => const SetGame(),
-        "/settings": (context) => const Settings(),
-        "/payment": (context) => const Payment(),
-        "/home": (context) => const Home(),
+        "/option_game": (context) => const ProtectedRoute(child: OptionGame()),
+        "/sign_up": (context) => const ProtectedRoute(child: SignUp()),
+        "/set_game": (context) => const ProtectedRoute(child: SetGame()),
+        "/settings": (context) => const ProtectedRoute(child: Settings()),
+        "/payment": (context) => const ProtectedRoute(child: Payment()),
+        "/home": (context) => const ProtectedRoute(child: Home()),
         "/login": (context) => const Login(),
       },
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
     );
+  }
+}
+
+class ProtectedRoute extends StatelessWidget {
+  final Widget child;
+
+  const ProtectedRoute({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final isAuthenticated = Provider.of<JwtProvider>(context).jwt?.isNotEmpty ?? false;
+
+    if (isAuthenticated) {
+      return child;
+    } else {
+      Navigator.pushReplacementNamed(context, "/login");
+      return Container();
+    }
   }
 }

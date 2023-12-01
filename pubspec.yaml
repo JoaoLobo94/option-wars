@@ -16,6 +16,7 @@ dependencies:
   provider: ^6.1.1
   shared_preferences: ^2.2.2
   qr_flutter: ^4.1.0
+  just_audio: ^0.9.36
 
 dev_dependencies:
   flutter_test:
@@ -28,4 +29,5 @@ flutter:
     - lib/assets/img.png
     - lib/assets/lightening.png
     - lib/assets/badger.png
+    - lib/assets/1911.mp3
     - .env

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:provider/provider.dart';
+import 'package:option_battles/providers/data_provider.dart';
 
 class PriceChart extends StatelessWidget {
   final List<double> priceData;
@@ -14,8 +16,8 @@ class PriceChart extends StatelessWidget {
       LineChartData(
         minX: 0,
         maxX: 10,
-        minY: firstPrice.first - 11,
-        maxY: firstPrice.first + 11,
+        minY: evaluateBoundDown(firstPrice, currentPrice),
+        maxY: evaluateBoundUp(firstPrice, currentPrice),
         lineBarsData: [
           LineChartBarData(
             spots: List.generate(priceData.length, (index) {
@@ -51,7 +53,7 @@ class PriceChart extends StatelessWidget {
           extraLinesOnTop: true,
           horizontalLines: [
             HorizontalLine(
-              y: firstPrice[0] + 10,
+              y: firstPrice[0] + 5,
               color: Colors.greenAccent,
               strokeWidth: 2,
               dashArray: [10, 2],
@@ -63,7 +65,7 @@ class PriceChart extends StatelessWidget {
                   fontSize: 9,
                   fontWeight: FontWeight.bold,
                 ),
-                labelResolver: (line) => 'Green wins: ${line.y}',
+                labelResolver: (line) => '${getDirection(context) == 'up' ? 'You win from here' : 'You loose from here'}: ${line.y}',
               ),
             ),
             HorizontalLine(
@@ -83,7 +85,7 @@ class PriceChart extends StatelessWidget {
               ),
             ),
             HorizontalLine(
-              y: firstPrice[0] - 10,
+              y: firstPrice[0] - 5,
               color: Colors.red,
               strokeWidth: 2,
               dashArray: [10, 2],
@@ -95,7 +97,7 @@ class PriceChart extends StatelessWidget {
                   fontSize: 9,
                   fontWeight: FontWeight.bold,
                 ),
-                labelResolver: (line) => 'Red rins: ${line.y}',
+                labelResolver: (line) => '${getDirection(context) == 'down' ? 'You win from here' : 'You loose from here'}: ${line.y}',
               ),
             ),
           ],
@@ -161,3 +163,25 @@ class PriceChart extends StatelessWidget {
     );
   }
 }
+
+String getDirection(BuildContext context) {
+  return Provider.of<DataProvider>(context, listen: false).betDirection;
+}
+
+double evaluateBoundUp(List<double> firstPrice, double currentPrice) {
+  if (currentPrice > firstPrice.first + 25) {
+    return firstPrice.first + 50;
+  } else {
+    return firstPrice.first + 25;
+  }
+}
+
+double evaluateBoundDown(List<double> firstPrice, double currentPrice) {
+  if (currentPrice < firstPrice.first - 25) {
+    return firstPrice.first - 50;
+  }  else {
+    return firstPrice.first - 25;
+  }
+}
+
+

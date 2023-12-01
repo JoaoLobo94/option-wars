@@ -42,7 +42,16 @@ class _SetGameState extends State<SetGame> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
-                      "Do you think the price will go up or down by \$10?",
+                      "Do you think the price will go up or down by during the next 20 seconds?",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const Text(
+                      "If you are right you will win 2x your bet.",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
