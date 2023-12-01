@@ -133,7 +133,7 @@ class _SetGameState extends State<SetGame> {
   }
 }
 
-void requestInvoice({selectedAmount, selectedDirection, required BuildContext context}) async {
+void requestInvoice({required selectedAmount, required selectedDirection, required BuildContext context}) async {
   String? baseUrl = dotenv.env['BASE_URL'];
 
   if (baseUrl != null) {
@@ -146,7 +146,7 @@ void requestInvoice({selectedAmount, selectedDirection, required BuildContext co
     apiService.requestInvoice(amount: selectedAmount, path: 'invoices', token: jwt).then((result) {
 
       if (result.success) {
-        dataProvider.setParameters(result.data['payment_hash'], selectedDirection, selectedAmount);
+        dataProvider.setParameters(result.data['id'], result.data['payment_hash'], result.data['payment_request'], selectedDirection, selectedAmount);
         Navigator.pushNamed(context, '/payment');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

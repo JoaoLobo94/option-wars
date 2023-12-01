@@ -82,6 +82,39 @@ class ApiService {
     }
   }
 
+  Future<ApiResult> checkInvoicePayment({
+    required String paymentHash,
+    required int id,
+    required String direction,
+    required String path,
+    required String token,
+  }) async {
+    String apiEndpoint = '$baseUrl/$path/$id';
+
+    Map<String, dynamic> requestData = {
+      'payment_hash': paymentHash,
+      'direction': direction,
+    };
+
+    try {
+      late http.Response response;
+        response = await http.patch(
+          Uri.parse(apiEndpoint),
+          body: json.encode(requestData),
+          headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
+        );
+
+      if (response.statusCode == 200) {
+        return ApiResult.ok(json.decode(response.body));
+      } else {
+        Map<String, dynamic> errorResponse = json.decode(response.body);
+        String errorMessage = errorResponse['message'].toString();
+        return ApiResult.failure(errorMessage);
+      }
+    } catch (error) {
+      return ApiResult.failure('Error making HTTP request: $error');
+    }
+  }
 }
 
 class ApiResult {
