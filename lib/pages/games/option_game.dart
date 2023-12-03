@@ -3,6 +3,7 @@ import 'package:just_audio/just_audio.dart';
 import 'dart:async';
 import 'package:option_battles/providers/price_provider.dart';
 import 'components/game_top_bar.dart';
+import 'components/game_outcome.dart';
 import 'package:provider/provider.dart';
 import 'components/price_chart.dart';
 
@@ -15,7 +16,9 @@ class OptionGame extends StatefulWidget {
 
 class _OptionGameState extends State<OptionGame> {
   int countdown = 5;
+  int gameDurantion = 1;
   late Timer countdownTimer;
+  late Timer gameTimer;
 
   @override
   void initState() {
@@ -27,6 +30,7 @@ class _OptionGameState extends State<OptionGame> {
   @override
   void dispose() {
     countdownTimer.cancel();
+    gameTimer.cancel();
     super.dispose();
   }
 
@@ -37,10 +41,31 @@ class _OptionGameState extends State<OptionGame> {
       });
 
       if (countdown == 0) {
-        timer.cancel();
+        countdownTimer.cancel();
+        gameTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+          setState(() {
+            gameDurantion--;
+          });
+
+          if (gameDurantion == 0) {
+            _showGameOutcomeModal(context);
+            gameTimer.cancel();
+          }
+        });
       }
     });
   }
+
+  // Function to show the modal with the GameOutcome widget
+  void _showGameOutcomeModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const GameOutcome();
+      },
+    );
+  }
+
 
   void playSound() async {
     final player = AudioPlayer();
@@ -62,6 +87,12 @@ class _OptionGameState extends State<OptionGame> {
               ),
             ),
             child: const GameTopBar(),
+          ),
+          Center(
+              child: Text(
+                '$gameDurantion',
+                style: const TextStyle(fontSize: 100, color: Colors.orange, fontWeight: FontWeight.bold),
+              )
           ),
           Expanded(
             child: countdown > 0

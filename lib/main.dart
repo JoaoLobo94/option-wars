@@ -41,7 +41,7 @@ class MainAppContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: OptionGame(),
+      home: const Home(),
       routes: {
         "/option_game": (context) => const ProtectedRoute(child: OptionGame()),
         "/sign_up": (context) => const ProtectedRoute(child: SignUp()),

@@ -30,4 +30,5 @@ flutter:
     - lib/assets/lightening.png
     - lib/assets/badger.png
     - lib/assets/1911.mp3
+    - lib/assets/1911.gif
     - .env
