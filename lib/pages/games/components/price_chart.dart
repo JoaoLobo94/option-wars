@@ -165,7 +165,7 @@ class PriceChart extends StatelessWidget {
 }
 
 String getDirection(BuildContext context) {
-  return Provider.of<DataProvider>(context, listen: false).betDirection;
+  return Provider.of<DataProvider>(context, listen: false).getSelectedDirection;
 }
 
 double evaluateBoundUp(List<double> firstPrice, double currentPrice) {
@@ -183,5 +183,6 @@ double evaluateBoundDown(List<double> firstPrice, double currentPrice) {
     return firstPrice.first - 25;
   }
 }
+
 
 

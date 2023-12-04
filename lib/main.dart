@@ -41,15 +41,15 @@ class MainAppContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const Home(),
+      home: const ProtectedRoute(child: Home()),
       routes: {
-        "/option_game": (context) => const ProtectedRoute(child: OptionGame()),
-        "/sign_up": (context) => const ProtectedRoute(child: SignUp()),
+        "/login": (context) => const Login(),
+        "/sign_up": (context) => const SignUp(),
         "/set_game": (context) => const ProtectedRoute(child: SetGame()),
         "/settings": (context) => const ProtectedRoute(child: Settings()),
         "/payment": (context) => const ProtectedRoute(child: Payment()),
         "/home": (context) => const ProtectedRoute(child: Home()),
-        "/login": (context) => const Login(),
+        "/option_game": (context) => const ProtectedRoute(child: OptionGame()),
       },
       debugShowCheckedModeBanner: true,
     );
@@ -68,7 +68,9 @@ class ProtectedRoute extends StatelessWidget {
     if (isAuthenticated) {
       return child;
     } else {
-      Navigator.pushReplacementNamed(context, "/login");
+      Future.delayed(Duration.zero, () {
+        Navigator.pushReplacementNamed(context, "/login");
+      });
       return Container();
     }
   }

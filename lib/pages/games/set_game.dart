@@ -51,7 +51,7 @@ class _SetGameState extends State<SetGame> {
                       textAlign: TextAlign.center,
                     ),
                     const Text(
-                      "If you are right you will win 2x your bet.",
+                      "If you are right ",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -155,7 +155,11 @@ void requestInvoice({required selectedAmount, required selectedDirection, requir
     apiService.requestInvoice(amount: selectedAmount, path: 'invoices', token: jwt).then((result) {
 
       if (result.success) {
-        dataProvider.setParameters(result.data['id'], result.data['payment_hash'], result.data['payment_request'], selectedDirection, selectedAmount);
+        dataProvider.setInvoiceId(result.data['id']);
+        dataProvider.setPaymentHash(result.data['payment_hash']);
+        dataProvider.setPaymentRequest(result.data['payment_request']);
+        dataProvider.setSelectedDirection(selectedDirection);
+        dataProvider.setPaymentAmount(selectedAmount);
         Navigator.pushNamed(context, '/payment');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

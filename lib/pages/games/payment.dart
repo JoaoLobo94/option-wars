@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:async'; // Import the dart:async package for Timer
+import 'dart:async';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'components/game_top_bar.dart';
@@ -146,16 +146,13 @@ class _PaymentState extends State<Payment> {
   }
 
   String getPaymentData(BuildContext context) {
-    return Provider.of<DataProvider>(context, listen: false).paymentInfo;
+    return Provider.of<DataProvider>(context, listen: false).getPaymentRequest;
   }
 
   String getPaymentAmount(BuildContext context) {
-    return Provider.of<DataProvider>(context, listen: false).paymentAmount;
+    return Provider.of<DataProvider>(context, listen: false).getPaymentAmount;
   }
 
-  String getDirection(BuildContext context) {
-    return Provider.of<DataProvider>(context, listen: false).betDirection;
-  }
 
   Future<bool> getPaymentInformation(BuildContext context) async {
     String? baseUrl = dotenv.env['BASE_URL'];
@@ -168,7 +165,7 @@ class _PaymentState extends State<Payment> {
         ApiResult result = await apiService.checkInvoicePayment(
           paymentHash: getPaymentHash(context),
           id: getId(context),
-          direction: getDirection(context),
+          amount: getPaymentAmount(context),
           path: 'invoices',
           token: jwt,
         );
@@ -186,10 +183,10 @@ class _PaymentState extends State<Payment> {
   }
 
   String getPaymentHash(BuildContext context) {
-    return Provider.of<DataProvider>(context, listen: false).paymentHash;
+    return Provider.of<DataProvider>(context, listen: false).getPaymentHash;
   }
 
   int getId(BuildContext context) {
-    return Provider.of<DataProvider>(context, listen: false).id;
+    return Provider.of<DataProvider>(context, listen: false).getInvoiceId;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import '../../providers/jwt_provider.dart';
+import '../../providers/data_provider.dart';
 import '../../services/api.dart';
 import 'package:flutter/material.dart';
 import 'components/welcome_text.dart';
@@ -77,6 +78,7 @@ class LoginState extends State<Login> {
     );
   }
 
+
   void _submitForm(BuildContext context) async {
     String username = _usernameController.text;
     String password = _passwordController.text;
@@ -94,7 +96,10 @@ class LoginState extends State<Login> {
 
         if (result.success) {
           final jwtProvider = Provider.of<JwtProvider>(context, listen: false);
+          final dataProvider = Provider.of<DataProvider>(context, listen: false);
           jwtProvider.saveJwtToStorage(result.data['token']);
+          dataProvider.setUsername(username);
+          dataProvider.setUserBalance(double.parse(result.data['user']['balance']));
           Navigator.pushNamed(context, "/home");
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
