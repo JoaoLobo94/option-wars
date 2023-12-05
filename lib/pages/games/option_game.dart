@@ -8,7 +8,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:async';
 import 'package:option_battles/providers/price_provider.dart';
 import 'components/game_top_bar.dart';
-import 'components/game_outcome.dart';
 import 'components/price_chart.dart';
 
 class OptionGame extends StatefulWidget {
@@ -20,7 +19,7 @@ class OptionGame extends StatefulWidget {
 
 class _OptionGameState extends State<OptionGame> {
   int countdown = 5;
-  int gameDuration = 30;
+  int gameDuration = 5;
   late Timer countdownTimer;
   late Timer gameTimer;
   bool betCreated = false;
@@ -28,7 +27,6 @@ class _OptionGameState extends State<OptionGame> {
   @override
   void initState() {
     super.initState();
-    Provider.of<DataProvider>(context, listen: false).loadPersistedData();
     playSound();
     startCountdown();
   }
@@ -52,9 +50,7 @@ class _OptionGameState extends State<OptionGame> {
           setState(() {
             gameDuration--;
           });
-
           if (gameDuration == 0) {
-            _showGameOutcomeModal(context);
             gameTimer.cancel();
           }
         });
@@ -62,15 +58,7 @@ class _OptionGameState extends State<OptionGame> {
     });
   }
 
-  // Function to show the modal with the GameOutcome widget
-  void _showGameOutcomeModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return const GameOutcome();
-      },
-    );
-  }
+
 
   void playSound() async {
     final player = AudioPlayer();
@@ -114,16 +102,16 @@ class _OptionGameState extends State<OptionGame> {
                 final firstPrice = priceProvider.firstPrice;
                 final price = priceProvider.price;
 
-                if (inGamePrices.isEmpty) {
+                if (inGamePrices.isEmpty && countdown == 0) {
                   return const Center(child: CircularProgressIndicator());
                 }
-
-                if (!betCreated && firstPrice.isNotEmpty) {
-                  createBet(context, firstPrice.last);
-                  betCreated = true;
+                else {
+                  if (!betCreated && firstPrice.isNotEmpty) {
+                    createBet(context, firstPrice.last);
+                    betCreated = true;
+                  }
+                  return PriceChart(priceData: inGamePrices, firstPrice: firstPrice, currentPrice: price, gameDuration: gameDuration);
                 }
-
-                return PriceChart(priceData: inGamePrices, firstPrice: firstPrice, currentPrice: price);
               },
             ),
           ),
@@ -132,6 +120,7 @@ class _OptionGameState extends State<OptionGame> {
     );
   }
 }
+
 
 String getPaymentAmount(BuildContext context) {
   final dataProvider = Provider.of<DataProvider>(context, listen: false);

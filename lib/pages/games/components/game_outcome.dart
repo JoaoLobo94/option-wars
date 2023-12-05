@@ -1,44 +1,50 @@
 import 'package:flutter/material.dart';
 
 class GameOutcome extends StatelessWidget {
-  const GameOutcome({Key? key});
+  final bool win;
+  final bool freeReplay;
+
+  const GameOutcome({super.key, required this.win, required this.freeReplay});
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      'lib/assets/badger.png',
-      width: 200,
-      height: 200,
-    );
+    if (freeReplay) {
+      return const FreeReplay();
+    } else {
+      return PlayAgain(win: win);
+    }
   }
 }
 
-class PlayAgainNoResultWidget extends StatelessWidget {
-  const PlayAgainNoResultWidget({Key? key}) : super(key: key);
+class FreeReplay extends StatelessWidget {
+  
+  const FreeReplay({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          'No one won or lost.',
+        const Text(
+          'Not allot of price movement, you get a free replay!',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         ElevatedButton(
           onPressed: () {
             // Implement play again logic
           },
-          child: Text('Play Again'),
+          child: const Text('Play Again'),
         ),
       ],
     );
   }
 }
 
-class PlayAgainYouLostWidget extends StatelessWidget {
-  const PlayAgainYouLostWidget({Key? key}) : super(key: key);
+class PlayAgain extends StatelessWidget {
+  final bool win;
+
+  const PlayAgain({super.key, required this.win});
 
   @override
   Widget build(BuildContext context) {
@@ -46,48 +52,15 @@ class PlayAgainYouLostWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'You lost!',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          win ? 'You won!, you doubled your bet!' : 'You lost!',
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         ElevatedButton(
           onPressed: () {
-            // Implement play again logic
-          },
-          child: Text('Play Again'),
-        ),
-      ],
-    );
-  }
-}
 
-class PlayAgainCashOutWidget extends StatelessWidget {
-  final int amount;
-
-  const PlayAgainCashOutWidget({Key? key, required this.amount}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'You won $amount!',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: () {
-            // Implement play again logic
           },
-          child: Text('Play Again'),
-        ),
-        SizedBox(height: 10),
-        ElevatedButton(
-          onPressed: () {
-            // Implement cash out logic
-          },
-          child: Text('Cash Out'),
+          child: const Text('Play Again'),
         ),
       ],
     );

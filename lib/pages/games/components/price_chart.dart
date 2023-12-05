@@ -2,13 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:option_battles/providers/data_provider.dart';
+import 'package:option_battles/providers/jwt_provider.dart';
+import 'package:option_battles/services/api.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../components/game_outcome.dart';
 
-class PriceChart extends StatelessWidget {
+
+class PriceChart extends StatefulWidget {
   final List<double> priceData;
   final List<double> firstPrice;
   final double currentPrice;
+  final int gameDuration;
 
-  const PriceChart({super.key, required this.priceData, required this.firstPrice, required this.currentPrice});
+  const PriceChart({super.key, required this.priceData, required this.firstPrice, required this.currentPrice, required this.gameDuration});
+
+  @override
+  State<PriceChart> createState() => _PriceChartState();
+}
+
+class _PriceChartState extends State<PriceChart> {
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.gameDuration == 0) {
+      settleBet(context, widget.firstPrice[0], widget.currentPrice);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +36,19 @@ class PriceChart extends StatelessWidget {
       LineChartData(
         minX: 0,
         maxX: 10,
-        minY: evaluateBoundDown(firstPrice, currentPrice),
-        maxY: evaluateBoundUp(firstPrice, currentPrice),
+        minY: evaluateBoundDown(widget.firstPrice, widget.currentPrice),
+        maxY: evaluateBoundUp(widget.firstPrice, widget.currentPrice),
         lineBarsData: [
           LineChartBarData(
-            spots: List.generate(priceData.length, (index) {
-              return FlSpot(index.toDouble(), priceData[index]);
+            spots: List.generate(widget.priceData.length, (index) {
+              return FlSpot(index.toDouble(), widget.priceData[index]);
             }),
             dotData: const FlDotData(
               show: false,
             ),
             isCurved: true,
-            color: _getColor(priceData.last, firstPrice.first, false),
-            belowBarData: BarAreaData(show: true, color: _getColor(priceData.last, firstPrice.first, true), ),
+            color: _getColor(widget.priceData.last, widget.firstPrice.first, false),
+            belowBarData: BarAreaData(show: true, color: _getColor(widget.priceData.last, widget.firstPrice.first, true), ),
           ),
         ],
         borderData: FlBorderData(
@@ -53,7 +73,7 @@ class PriceChart extends StatelessWidget {
           extraLinesOnTop: true,
           horizontalLines: [
             HorizontalLine(
-              y: firstPrice[0] + 5,
+              y: widget.firstPrice[0] + 5,
               color: Colors.greenAccent,
               strokeWidth: 2,
               dashArray: [10, 2],
@@ -69,7 +89,7 @@ class PriceChart extends StatelessWidget {
               ),
             ),
             HorizontalLine(
-              y: firstPrice[0],
+              y: widget.firstPrice[0],
               color: Colors.blue,
               strokeWidth: 2,
               dashArray: [10, 2],
@@ -85,7 +105,7 @@ class PriceChart extends StatelessWidget {
               ),
             ),
             HorizontalLine(
-              y: firstPrice[0] - 5,
+              y: widget.firstPrice[0] - 5,
               color: Colors.red,
               strokeWidth: 2,
               dashArray: [10, 2],
@@ -136,7 +156,6 @@ class PriceChart extends StatelessWidget {
     );
   }
 
-
   Color _getColor(double priceData, double firstPrice, bool hasOpacity) {
     if (priceData > firstPrice) {
       return hasOpacity ? Colors.green.withOpacity(0.2) : Colors.greenAccent;
@@ -149,7 +168,7 @@ class PriceChart extends StatelessWidget {
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
      TextStyle style = TextStyle(
-      color: _getColor(value,firstPrice[0], false),
+      color: _getColor(value,widget.firstPrice[0], false),
       fontSize: 10,
     );
 
@@ -170,7 +189,7 @@ String getDirection(BuildContext context) {
 
 double evaluateBoundUp(List<double> firstPrice, double currentPrice) {
   if (currentPrice > firstPrice.first + 25) {
-    return firstPrice.first + 50;
+    return firstPrice.first + 100;
   } else {
     return firstPrice.first + 25;
   }
@@ -178,9 +197,47 @@ double evaluateBoundUp(List<double> firstPrice, double currentPrice) {
 
 double evaluateBoundDown(List<double> firstPrice, double currentPrice) {
   if (currentPrice < firstPrice.first - 25) {
-    return firstPrice.first - 50;
+    return firstPrice.first - 100;
   }  else {
     return firstPrice.first - 25;
+  }
+}
+
+void showGameOutcomeModal(BuildContext context, win, freeReplay) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return GameOutcome(win: win, freeReplay: freeReplay);
+    },
+  );
+}
+
+int getBetId(BuildContext context) {
+  final dataProvider = Provider.of<DataProvider>(context, listen: false);
+  return dataProvider.getBetId;
+}
+
+Future<void> settleBet(BuildContext context, double startPrice, double currentPrice) async {
+ if (startPrice + 5 < currentPrice || startPrice - 5 > currentPrice) {
+    showGameOutcomeModal(context, false, true );
+    return;
+  }
+
+  String? baseUrl = dotenv.env['BASE_URL'];
+  JwtProvider jwtProvider = Provider.of<JwtProvider>(context, listen: false);
+  String jwt = jwtProvider.jwt!;
+
+  if (baseUrl != null) {
+    ApiService apiService = ApiService(baseUrl);
+    try {
+      ApiResult result = await apiService.settleBet(
+        path: 'bets/${getBetId(context)}',
+        token: jwt,
+      );
+      if (result.success) {
+        showGameOutcomeModal(context, result.data['win'], false);
+      }
+    } catch (e) {}
   }
 }
 
