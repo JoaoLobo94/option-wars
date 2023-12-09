@@ -6,7 +6,7 @@ import 'dart:async';
 class PriceProvider extends ChangeNotifier {
   double price = 0.0;
   List<double> inGamePrices = [];
-  List <double> firstPrice = [];
+  double firstPrice = 0.0;
   final StreamController<double> _priceStreamController = StreamController<double>.broadcast();
 
   PriceProvider() {
@@ -16,8 +16,8 @@ class PriceProvider extends ChangeNotifier {
       if (message == null) return;
       final Map<String, dynamic> data = json.decode(message);
       price = double.parse(data['p']);
-      if (firstPrice.isEmpty) {
-        firstPrice.add(price);
+      if (firstPrice == 0.0){
+        firstPrice = price;
         notifyListeners();
       }
       addPriceToChart(price);
@@ -26,6 +26,7 @@ class PriceProvider extends ChangeNotifier {
   }
 
   Stream<double> get priceStream => _priceStreamController.stream;
+
 
   void addPriceToChart(double price) {
     if (price == 0.0) return;

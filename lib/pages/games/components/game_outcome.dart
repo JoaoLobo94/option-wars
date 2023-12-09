@@ -1,21 +1,4 @@
 import 'package:flutter/material.dart';
-
-class GameOutcome extends StatelessWidget {
-  final bool win;
-  final bool freeReplay;
-
-  const GameOutcome({super.key, required this.win, required this.freeReplay});
-
-  @override
-  Widget build(BuildContext context) {
-    if (freeReplay) {
-      return const FreeReplay();
-    } else {
-      return PlayAgain(win: win);
-    }
-  }
-}
-
 class FreeReplay extends StatelessWidget {
   
   const FreeReplay({super.key});

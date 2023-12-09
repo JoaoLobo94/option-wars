@@ -12,6 +12,8 @@ class DataProvider extends ChangeNotifier {
   int _betId = 0;
   double _startPrice = 0.0;
   double _userBalance = 0.0;
+  bool winner = false;
+  bool freeReplay = false;
 
   DataProvider() {
     loadPersistedData();
@@ -27,12 +29,24 @@ class DataProvider extends ChangeNotifier {
   int get getBetId => _betId;
   double get getStartPrice => _startPrice;
   double get getUserBalance => _userBalance;
+  bool get getWinner => winner;
+  bool get getFreeReplay => freeReplay;
 
   Future<void> loadPersistedData() async {
     final prefs = await SharedPreferences.getInstance();
     _username = prefs.getString('username') ?? '';
     _lnurl = prefs.getString('lnurl') ?? '';
     _userBalance = prefs.getDouble('userBalance') ?? 0.0;
+    notifyListeners();
+  }
+
+  Future<void> setWinner(bool newWinner) async {
+    winner = newWinner;
+    notifyListeners();
+  }
+
+  Future<void> setFreeReplay(bool newFreeReplay) async {
+    freeReplay = newFreeReplay;
     notifyListeners();
   }
 

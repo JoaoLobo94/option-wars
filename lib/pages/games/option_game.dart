@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:option_battles/providers/price_provider.dart';
 import 'components/game_top_bar.dart';
 import 'components/price_chart.dart';
+import 'components/game_outcome.dart';
 
 class OptionGame extends StatefulWidget {
   const OptionGame({Key? key}) : super(key: key);
@@ -106,11 +107,18 @@ class _OptionGameState extends State<OptionGame> {
                   return const Center(child: CircularProgressIndicator());
                 }
                 else {
-                  if (!betCreated && firstPrice.isNotEmpty) {
-                    createBet(context, firstPrice.last);
+                  if (!betCreated && firstPrice != 0.0) {
+                    createBet(context, firstPrice);
                     betCreated = true;
                   }
-                  return PriceChart(priceData: inGamePrices, firstPrice: firstPrice, currentPrice: price, gameDuration: gameDuration);
+                  if (gameDuration == 0) {
+                    if (getFreeReplay(context)) {
+                      return const FreeReplay();
+                    } else {
+                      return PlayAgain(win: getWinner(context));
+                    }
+                  }
+                  return PriceChart(priceData: inGamePrices, firstPrice: firstPrice, currentPrice: price);
                 }
               },
             ),
@@ -121,6 +129,13 @@ class _OptionGameState extends State<OptionGame> {
   }
 }
 
+bool getFreeReplay(BuildContext context) {
+  return Provider.of<DataProvider>(context, listen: false).getFreeReplay;
+}
+
+bool getWinner(BuildContext context) {
+  return Provider.of<DataProvider>(context, listen: false).getWinner;
+}
 
 String getPaymentAmount(BuildContext context) {
   final dataProvider = Provider.of<DataProvider>(context, listen: false);

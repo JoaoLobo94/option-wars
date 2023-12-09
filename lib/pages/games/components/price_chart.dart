@@ -5,29 +5,47 @@ import 'package:option_battles/providers/data_provider.dart';
 import 'package:option_battles/providers/jwt_provider.dart';
 import 'package:option_battles/services/api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import '../components/game_outcome.dart';
+import 'dart:async';
 
 
 class PriceChart extends StatefulWidget {
   final List<double> priceData;
-  final List<double> firstPrice;
+  final double firstPrice;
   final double currentPrice;
-  final int gameDuration;
 
-  const PriceChart({super.key, required this.priceData, required this.firstPrice, required this.currentPrice, required this.gameDuration});
+
+  const PriceChart({super.key, required this.priceData, required this.firstPrice, required this.currentPrice});
 
   @override
   State<PriceChart> createState() => _PriceChartState();
 }
 
 class _PriceChartState extends State<PriceChart> {
+  late Timer gameTimer;
+  int gameDuration = 5;
 
   @override
   void initState() {
     super.initState();
-    if (widget.gameDuration == 0) {
-      settleBet(context, widget.firstPrice[0], widget.currentPrice);
-    }
+    startCountdown();
+  }
+
+  @override
+  void dispose() {
+    gameTimer.cancel();
+    super.dispose();
+  }
+
+  void startCountdown() {
+    gameTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        gameDuration--;
+      });
+      if (gameDuration == 0) {
+        settleBet(context, widget.firstPrice, widget.currentPrice);
+        gameTimer.cancel();
+      }
+    });
   }
 
   @override
@@ -47,8 +65,8 @@ class _PriceChartState extends State<PriceChart> {
               show: false,
             ),
             isCurved: true,
-            color: _getColor(widget.priceData.last, widget.firstPrice.first, false),
-            belowBarData: BarAreaData(show: true, color: _getColor(widget.priceData.last, widget.firstPrice.first, true), ),
+            color: _getColor(widget.priceData.last, widget.firstPrice, false),
+            belowBarData: BarAreaData(show: true, color: _getColor(widget.priceData.last, widget.firstPrice, true), ),
           ),
         ],
         borderData: FlBorderData(
@@ -73,7 +91,7 @@ class _PriceChartState extends State<PriceChart> {
           extraLinesOnTop: true,
           horizontalLines: [
             HorizontalLine(
-              y: widget.firstPrice[0] + 5,
+              y: widget.firstPrice + 5,
               color: Colors.greenAccent,
               strokeWidth: 2,
               dashArray: [10, 2],
@@ -89,7 +107,7 @@ class _PriceChartState extends State<PriceChart> {
               ),
             ),
             HorizontalLine(
-              y: widget.firstPrice[0],
+              y: widget.firstPrice,
               color: Colors.blue,
               strokeWidth: 2,
               dashArray: [10, 2],
@@ -105,7 +123,7 @@ class _PriceChartState extends State<PriceChart> {
               ),
             ),
             HorizontalLine(
-              y: widget.firstPrice[0] - 5,
+              y: widget.firstPrice - 5,
               color: Colors.red,
               strokeWidth: 2,
               dashArray: [10, 2],
@@ -135,22 +153,22 @@ class _PriceChartState extends State<PriceChart> {
           },
         ),
         titlesData: FlTitlesData(show: true,
-          topTitles: const AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          rightTitles: const AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          bottomTitles: const AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          leftTitles: AxisTitles(
+            topTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            rightTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            bottomTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            leftTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: false,
                 reservedSize: 46,
                 getTitlesWidget: leftTitleWidgets,
               ),
-          )
+            )
         ),
       ),
     );
@@ -167,8 +185,8 @@ class _PriceChartState extends State<PriceChart> {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-     TextStyle style = TextStyle(
-      color: _getColor(value,widget.firstPrice[0], false),
+    TextStyle style = TextStyle(
+      color: _getColor(value,widget.firstPrice, false),
       fontSize: 10,
     );
 
@@ -187,29 +205,20 @@ String getDirection(BuildContext context) {
   return Provider.of<DataProvider>(context, listen: false).getSelectedDirection;
 }
 
-double evaluateBoundUp(List<double> firstPrice, double currentPrice) {
-  if (currentPrice > firstPrice.first + 25) {
-    return firstPrice.first + 100;
+double evaluateBoundUp(double firstPrice, double currentPrice) {
+  if (currentPrice > firstPrice + 25) {
+    return firstPrice + 100;
   } else {
-    return firstPrice.first + 25;
+    return firstPrice + 25;
   }
 }
 
-double evaluateBoundDown(List<double> firstPrice, double currentPrice) {
-  if (currentPrice < firstPrice.first - 25) {
-    return firstPrice.first - 100;
+double evaluateBoundDown(double firstPrice, double currentPrice) {
+  if (currentPrice < firstPrice - 25) {
+    return firstPrice - 100;
   }  else {
-    return firstPrice.first - 25;
+    return firstPrice - 25;
   }
-}
-
-void showGameOutcomeModal(BuildContext context, win, freeReplay) {
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return GameOutcome(win: win, freeReplay: freeReplay);
-    },
-  );
 }
 
 int getBetId(BuildContext context) {
@@ -218,9 +227,8 @@ int getBetId(BuildContext context) {
 }
 
 Future<void> settleBet(BuildContext context, double startPrice, double currentPrice) async {
- if (startPrice + 5 < currentPrice || startPrice - 5 > currentPrice) {
-    showGameOutcomeModal(context, false, true );
-    return;
+  if (currentPrice >= startPrice - 5 && currentPrice <= startPrice + 5) {
+    Provider.of<DataProvider>(context, listen: false).setFreeReplay(true);
   }
 
   String? baseUrl = dotenv.env['BASE_URL'];
@@ -235,9 +243,12 @@ Future<void> settleBet(BuildContext context, double startPrice, double currentPr
         token: jwt,
       );
       if (result.success) {
-        showGameOutcomeModal(context, result.data['win'], false);
+        Provider.of<DataProvider>(context, listen: false).setFreeReplay(false);
+        Provider.of<DataProvider>(context, listen: false).setWinner(result.data['winner']);
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 }
 
