@@ -1,4 +1,4 @@
-package com.example.option_battles
+package com.example.satsails
 
 import io.flutter.embedding.android.FlutterActivity
 

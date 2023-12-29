@@ -11,6 +11,7 @@ import 'pages/home/home.dart';
 import 'pages/games/option_game.dart';
 import 'pages/games/set_game.dart';
 import 'pages/games/payment.dart';
+import 'pages/wallet/wallet_create.dart';
 
 void main() async {
   await dotenv.load();
@@ -40,20 +41,27 @@ class MainAppContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const ProtectedRoute(child: Home()),
-      // home: const ProtectedRoute(child: OptionGame()),
-      routes: {
-        "/login": (context) => const Login(),
-        "/sign_up": (context) => const SignUp(),
-        "/set_game": (context) => const ProtectedRoute(child: SetGame()),
-        "/settings": (context) => const ProtectedRoute(child: Settings()),
-        "/payment": (context) => const ProtectedRoute(child: Payment()),
-        "/home": (context) => const ProtectedRoute(child: Home()),
-        "/option_game": (context) => const ProtectedRoute(child: OptionGame()),
-      },
-      debugShowCheckedModeBanner: true,
-    );
+    if (dotenv.env['IS_APP'] == 'true') {
+      return MaterialApp(
+      home: WalletCreate(),
+      );
+    }
+    else {
+      return MaterialApp(
+        home: const ProtectedRoute(child: Home()),
+        routes: {
+          "/login": (context) => const Login(),
+          "/sign_up": (context) => const SignUp(),
+          "/set_game": (context) => const ProtectedRoute(child: SetGame()),
+          "/settings": (context) => const ProtectedRoute(child: Settings()),
+          "/payment": (context) => const ProtectedRoute(child: Payment()),
+          "/home": (context) => const ProtectedRoute(child: Home()),
+          "/option_game": (context) =>
+          const ProtectedRoute(child: OptionGame()),
+        },
+        debugShowCheckedModeBanner: true,
+      );
+    }
   }
 }
 
